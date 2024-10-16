@@ -1,5 +1,3 @@
-# receipt_strategy_factory.py
-
 from typing import Dict
 from .base_receipt_strategy import BaseReceiptStrategy
 from shopping_cart.models.receipts.csv_receipt_strategy import CSVReceiptStrategy

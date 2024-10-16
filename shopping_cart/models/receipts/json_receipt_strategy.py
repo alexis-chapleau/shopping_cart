@@ -1,5 +1,3 @@
-# json_receipt_strategy.py
-
 import json
 from typing import Dict, Optional
 from shopping_cart.models.receipts.base_receipt_strategy import BaseReceiptStrategy
