@@ -1,5 +1,3 @@
-# test_receipts.py
-
 import unittest
 from shopping_cart.models.item import Item
 from shopping_cart.models.shopping_cart import ShoppingCart
@@ -105,28 +103,24 @@ class TestReceiptGeneration(unittest.TestCase):
         lines = receipt_content.strip().split('\n')
 
         # Verify receipt structure
-        self.assertIn("Receipt:", lines[0])
-        self.assertIn("--------", lines[1])
-
-        # Verify total price
-        self.assertIn(f"Total Price: ${self.expected_total_price:.2f}", lines[-1])
+        self.assertEqual(lines[0], "Receipt:")
+        self.assertEqual(lines[1], "--------")
 
         # Verify items
         item_lines = lines[2:-2]  # Exclude header and total price
-        expected_line_count = len(self.expected_items)
+        expected_line_count = len(self.expected_items) * 2
         self.assertEqual(len(item_lines), expected_line_count)
 
         # Extract items from lines
         receipt_items = []
-        for line in item_lines:
-            parts = line.split('|')
-            uid_part = parts[0].strip()
-            name_part = parts[1].strip()
-            price_part = parts[2].strip()
+        for i in range(0, len(item_lines), 2):
+            name_price_line = item_lines[i].strip()
+            uid_line = item_lines[i + 1].strip()
 
-            uid = uid_part.replace("UID: ", "")
-            name = name_part.replace("Name: ", "")
-            unit_price = float(price_part.replace("Unit Price: $", ""))
+            name_part, price_part = name_price_line.split('|')
+            name = name_part.replace("Name: ", "").strip()
+            unit_price = float(price_part.replace("Price: $", "").strip())
+            uid = uid_line.replace("UID: ", "").strip()
 
             receipt_items.append({'uid': uid, 'name': name, 'unit_price': unit_price})
 
@@ -138,6 +132,11 @@ class TestReceiptGeneration(unittest.TestCase):
             self.assertEqual(expected_item['uid'], receipt_item['uid'])
             self.assertEqual(expected_item['name'], receipt_item['name'])
             self.assertEqual(expected_item['unit_price'], receipt_item['unit_price'])
+
+        # Verify total price
+        self.assertEqual(lines[-2], "--------")
+        self.assertEqual(lines[-1], f"Total Price: ${self.expected_total_price:.2f}")
+
 
     def test_yaml_receipt_strategy(self):
         """Test the YAML receipt strategy."""

@@ -15,7 +15,7 @@ class ShoppingCart:
         self._total_price: float = 0.0
         self._total_quantity: int = 0
 
-    def add_item(self, item: Item, quantity: int = 1) -> None:
+    def add_item(self, item: Item) -> None:
         """Add an item to the cart.
 
         Args:
@@ -28,9 +28,6 @@ class ShoppingCart:
         if not isinstance(item, Item):
             raise TypeError("Only Item instances can be added to the cart.")
 
-        if quantity < 1:
-            raise ValueError("Quantity must be at least 1.")
-
         item_name = item.name
 
         if item_name not in self._items:
@@ -41,15 +38,14 @@ class ShoppingCart:
             }
 
         item_group = self._items[item_name]
-        for _ in range(quantity):
-            item_group['instances'].append(item)
-            item_group['total_quantity'] += 1
-            item_group['total_price'] += item.price
+        item_group['instances'].append(item)
+        item_group['total_quantity'] += 1
+        item_group['total_price'] += item.price
 
-            self._total_price += item.price
-            self._total_quantity += 1
+        self._total_price += item.price
+        self._total_quantity += 1
 
-        logger.debug(f"Added '{item_name}' (UID: {item.uid}) to cart. Quantity: {quantity}")
+        logger.debug(f"Added '{item_name}' (UID: {item.uid}) to cart.")
 
     def remove_item(self, item: Item) -> None:
         """Remove a specific item instance from the cart.
@@ -60,6 +56,9 @@ class ShoppingCart:
         Raises:
             KeyError: If the item is not found in the cart.
         """
+        if not isinstance(item, Item):
+            raise TypeError("Only Item instances can be added to the cart.")
+
         item_name = item.name
         if item_name not in self._items:
             raise KeyError(f"Item '{item_name}' not in the cart.")

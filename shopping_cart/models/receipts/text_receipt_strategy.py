@@ -1,5 +1,3 @@
-# text_receipt_strategy.py
-
 from typing import Dict, Optional
 from shopping_cart.models.receipts.base_receipt_strategy import BaseReceiptStrategy
 
@@ -26,8 +24,9 @@ class TextReceiptStrategy(BaseReceiptStrategy):
 
         for item_name, item_group in data['items'].items():
             for item in item_group['instances']:
-                line = f"UID: {item.uid} | Name: {item.name} | Unit Price: ${item.price:.2f}"
+                line = f"Name: {item.name} | Price: ${item.price:.2f}"
                 lines.append(line)
+                lines.append(f"    UID: {item.uid}")  # UID on a new line, indented for better readability
 
         lines.append("--------")
         lines.append(f"Total Price: ${data['total_price']:.2f}")

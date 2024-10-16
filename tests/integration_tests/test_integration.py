@@ -1,5 +1,3 @@
-# integration_test.py
-
 import unittest
 from shopping_cart.models.item import Item
 from shopping_cart.models.shopping_cart import ShoppingCart

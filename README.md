@@ -6,6 +6,32 @@ items. The project was developed as part of an evaluation
 process to demonstrate proficiency in software design, 
 data structures, and design patterns.
 
+
+# Setup Instructions
+
+To set up the project and run the tests, please follow these steps:
+
+### 1. Install Python 3.7 or Higher
+
+Ensure that Python 3.7 or a newer version is installed on your system.
+
+### 2. Create a Virtual Environment
+
+Open a terminal in the project directory and create a virtual environment:
+
+
+    python3 -m venv venv
+
+    source venv/bin/activate
+
+    pip3 install -e .
+
+    python3 -m unittest discover -s tests
+
+    python3 main.py
+
+
+
 # ShoppingCart Class
 ## Location
 The ShoppingCart class is located in the shopping_cart/shopping_cart.py file within the project directory.
@@ -107,6 +133,7 @@ The ShoppingCart class remains agnostic of the receipt formats, relying on the s
 **Personal Preference**:
 
 The decision to use the Strategy Factory Pattern reflects a preference for design patterns that promote clean architecture and extensibility.
+
 
 
 # Conclusion
